@@ -9,7 +9,7 @@
 #   chmod +x setup.sh
 #   ./setup.sh
 #
-# TESTED ON: Fedora 41, 42, 43 (including Fedora Security Lab 43 Live)
+# REQUIREMENTS: Fedora 41+
 # NOTE: Run a full system update + reboot BEFORE running this.
 
 set -e
@@ -31,57 +31,57 @@ echo "  ██╔══██║  ╚██╔╝  ██╔═══╝ ██�
 echo "  ██║  ██║   ██║   ██║     ██║  ██║███████╗██║  ██║██║ ╚████║██████╔╝"
 echo "  ╚═╝  ╚═╝   ╚═╝   ╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ "
 echo -e "${RESET}"
-echo -e "${YELLOW}  Fedora 43 Security Lab + Hyprland + Custom Dotfiles${RESET}"
+echo -e "${YELLOW}  Fedora 41+ | Hyprland | Custom Dotfiles${RESET}"
 echo ""
 
 # ── Step 1: Safety checks ─────────────────────────────────────────────────────
 if [[ $EUID -eq 0 ]]; then
-    echo "❌ Do NOT run this script as root."
+    echo "ERROR: Do NOT run this script as root."
     exit 1
 fi
 
 if ! grep -q "Fedora" /etc/os-release 2>/dev/null; then
-    echo "❌ This script is for Fedora only."
+    echo "ERROR: This script is for Fedora only."
     exit 1
 fi
 
 FEDORA_VERSION=$(grep -oP '\d+' /etc/fedora-release | head -1)
-echo -e "${GREEN}✔ Fedora ${FEDORA_VERSION} detected${RESET}"
+echo -e "${GREEN}  Fedora ${FEDORA_VERSION} detected${RESET}"
 
 if [[ "$FEDORA_VERSION" -lt 41 ]]; then
-    echo -e "${RED}❌ Fedora ${FEDORA_VERSION} is too old. This setup requires Fedora 41+.${RESET}"
+    echo -e "${RED}ERROR: Fedora ${FEDORA_VERSION} is not supported. This setup requires Fedora 41+.${RESET}"
     exit 1
 fi
 
-# ── Step 2: Fedora Security Lab / GNOME detection ─────────────────────────────
-# Security Lab ships with GNOME + GDM. The KooL installer needs GDM disabled
-# BEFORE it can install SDDM. We detect and warn the user.
+# ── Step 2: GDM detection (GNOME / Security Lab installs) ─────────────────────
+# If GDM is running, the KooL installer cannot install SDDM without first
+# disabling it. Detect and prompt the user.
 echo ""
 if systemctl is-active --quiet gdm.service 2>/dev/null || systemctl is-active --quiet gdm3.service 2>/dev/null; then
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
-    echo -e "${YELLOW}⚠️  GDM (GNOME Display Manager) is running.${RESET}"
-    echo -e "${YELLOW}   Fedora Security Lab ships with GNOME + GDM by default.${RESET}"
+    echo -e "${YELLOW}  WARNING: GDM (GNOME Display Manager) is running.${RESET}"
+    echo -e "${YELLOW}  Fedora Security Lab ships with GNOME + GDM by default.${RESET}"
     echo ""
-    echo -e "${CYAN}   To install SDDM (recommended for Hyprland), you must:${RESET}"
+    echo -e "${CYAN}  To install SDDM (recommended for Hyprland), you must:${RESET}"
     echo "   1. Disable GDM:  sudo systemctl disable --now gdm.service"
     echo "   2. Reboot"
     echo "   3. Log into TTY (Ctrl+Alt+F2), then re-run this script"
     echo "   4. Choose SDDM when the installer asks"
     echo ""
-    echo -e "${YELLOW}   OR: Continue without SDDM and launch Hyprland via TTY (type 'Hyprland')${RESET}"
+    echo -e "${YELLOW}  OR: Continue without SDDM and launch Hyprland via TTY (type 'Hyprland')${RESET}"
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
     echo ""
     read -rp "Disable GDM now and prepare for SDDM? (Requires reboot) [y/N]: " DISABLE_GDM
     if [[ "${DISABLE_GDM,,}" == "y" ]]; then
-        echo -e "${CYAN}→ Disabling GDM...${RESET}"
+        echo -e "${CYAN}  Disabling GDM...${RESET}"
         sudo systemctl disable gdm.service 2>/dev/null || sudo systemctl disable gdm3.service 2>/dev/null || true
-        echo -e "${GREEN}✔ GDM disabled.${RESET}"
+        echo -e "${GREEN}  GDM disabled.${RESET}"
         echo ""
-        echo -e "${YELLOW}📋 Next steps:${RESET}"
+        echo -e "${YELLOW}  Next steps:${RESET}"
         echo "   1. Reboot now:  sudo reboot"
         echo "   2. Log in via TTY (Ctrl+Alt+F2)"
         echo "   3. cd into this folder and run: ./setup.sh"
-        echo "   4. In the installer, select SDDM and SDDM theme"
+        echo "   4. In the installer, select SDDM and an SDDM theme"
         echo ""
         read -rp "Reboot now? [y/N]: " DO_REBOOT
         if [[ "${DO_REBOOT,,}" == "y" ]]; then
@@ -91,9 +91,9 @@ if systemctl is-active --quiet gdm.service 2>/dev/null || systemctl is-active --
     fi
 fi
 
-# ── Step 3: Fedora 43 — ensure git is available ────────────────────────────────
+# ── Step 3: Ensure git is available ───────────────────────────────────────────
 if ! command -v git &>/dev/null; then
-    echo -e "${CYAN}→ Installing git...${RESET}"
+    echo -e "${CYAN}  Installing git...${RESET}"
     sudo dnf install -y git
 fi
 
@@ -103,10 +103,10 @@ echo -e "${CYAN}━━━ Step 1/2: KooL Fedora-Hyprland Installer ━━━${RE
 echo ""
 
 if [ -d "$INSTALLER_DIR" ]; then
-    echo -e "${YELLOW}↻ Found existing $INSTALLER_DIR — pulling latest...${RESET}"
+    echo -e "${YELLOW}  Found existing $INSTALLER_DIR — pulling latest...${RESET}"
     cd "$INSTALLER_DIR" && git pull
 else
-    echo -e "${GREEN}↓ Cloning Fedora-Hyprland installer (supports Fedora 43)...${RESET}"
+    echo -e "${GREEN}  Cloning Fedora-Hyprland installer...${RESET}"
     git clone --depth=1 https://github.com/JaKooLit/Fedora-Hyprland.git "$INSTALLER_DIR"
 fi
 
@@ -114,14 +114,14 @@ cd "$INSTALLER_DIR"
 chmod +x install.sh
 
 echo ""
-echo -e "${YELLOW}📋 INSTALLER TIPS for Fedora Security Lab 43:${RESET}"
-echo "   ✅ Select: ZSH, GTK themes, XDG Portal, Thunar"
-echo "   ✅ Select: 'dots' to install KooL's base dotfiles"
-echo "   ✅ Select: SDDM (only if GDM was disabled and you rebooted)"
-echo "   ✅ Select: NVIDIA if you have an NVIDIA GPU"
-echo "   ⬜ Quickshell: optional (AGS fallback works fine)"
+echo -e "${YELLOW}  Installer tips:${RESET}"
+echo "   - Select: ZSH, GTK themes, XDG Portal, Thunar"
+echo "   - Select: 'dots' to install KooL's base dotfiles"
+echo "   - Select: SDDM (only if GDM was disabled and you rebooted)"
+echo "   - Select: NVIDIA if you have an NVIDIA GPU"
+echo "   - Quickshell is optional (AGS fallback works fine)"
 echo ""
-echo -e "${YELLOW}   Press ENTER to launch the installer...${RESET}"
+echo -e "${YELLOW}  Press ENTER to launch the installer...${RESET}"
 read -r
 ./install.sh
 
