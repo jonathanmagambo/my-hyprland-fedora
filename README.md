@@ -13,7 +13,7 @@
 On a fresh **Fedora 41+** install, after running `sudo dnf update -y && reboot`:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/my-hyprland-fedora.git ~/my-hyprland-fedora
+git clone https://github.com/jonathanmagambo/my-hyprland-fedora.git ~/my-hyprland-fedora
 cd ~/my-hyprland-fedora
 chmod +x setup.sh
 ./setup.sh
@@ -57,12 +57,11 @@ my-hyprland-fedora/
 |------|--------|
 | `SUPER + Return` | Open terminal (Kitty) |
 | `SUPER + SPACE` | App launcher (Rofi) |
-| `SUPER + W` | Browser (Firefox) |
+| `SUPER + W` | Browser (Mullvad Browser) |
 | `SUPER + E` | File manager (Thunar) |
 | `SUPER + A` | Discord (with Vencord) |
 | `SUPER + G` | Telegram |
 | `SUPER + Z` | Zed editor |
-| `SUPER + P` | Mullvad Browser |
 | `SUPER + T` | Theme switcher |
 | `SUPER + D` | Wallpaper picker |
 | `SUPER + H` | Config editor menu |
@@ -79,19 +78,19 @@ my-hyprland-fedora/
 
 ### Change your browser
 
-Edit `dotfiles/.config/hypr/configs/programs.conf`:
+Mullvad Browser is set as the default. To switch, edit `dotfiles/.config/hypr/configs/programs.conf`:
 
 ```bash
-$browser = firefox      # change to: zen-browser, chromium, etc.
+$browser = mullvad-browser    # change to: firefox, zen-browser, chromium, etc.
 ```
 
 ### Change your messaging app
 
 ```bash
-$message = vesktop      # Flatpak: dev.vencord.Vesktop
+$message = flatpak run com.discordapp.Discord
 ```
 
-Install with: `flatpak install flathub dev.vencord.Vesktop`
+Discord + Vencord is the default. Change to any other app if preferred.
 
 ### Switch Waybar layout
 
@@ -153,7 +152,7 @@ curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | sh
 | `.zshrc` | `alias i="sudo pacman -S"` | Changed to `dnf install -y` |
 | `.zshrc` | `alias ls="exa -l"` | Changed to `lsd -l` (Fedora installer uses lsd) |
 | `.zshrc` | Hardcoded `/home/zusqii/.spicetify` | Changed to `$HOME/.spicetify` |
-| `programs.conf` | `zen-browser` (not in Fedora repos) | Defaulted to `firefox`, added Flatpak note |
+| `programs.conf` | `zen-browser` (not in Fedora repos) | Defaulted to `mullvad-browser`, installed via apply-dots.sh |
 | `keybinds.conf` | `~/user_scripts/wayclick/...` path (broken) | Commented out; enable manually |
 | `keybinds.conf` | `.scripts/toggle.blur.sh` (missing `~/`) | Fixed to `~/.scripts/toggle.blur.sh` |
 | `configs.sh` | `codium` (not installed by default) | Changed to `xdg-open` (system default editor) |

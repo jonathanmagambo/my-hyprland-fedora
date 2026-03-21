@@ -90,7 +90,8 @@ echo -e "${CYAN}  Installing core packages...${RESET}"
 # ncmpcpp = music player, mpd = music daemon, mpd-mpris = MPRIS bridge for media keys
 # grim + slurp + wl-clipboard = screenshot tools (CTRL+S keybind)
 # brightnessctl = brightness keys support
-sudo dnf install -y ncmpcpp mpd mpd-mpris grim slurp wl-clipboard brightnessctl 2>/dev/null || true
+# fastfetch = system info tool
+sudo dnf install -y ncmpcpp mpd mpd-mpris grim slurp wl-clipboard brightnessctl fastfetch 2>/dev/null || true
 
 # swww (animated wallpaper daemon — via COPR if not already installed by KooL)
 if ! command -v swww &>/dev/null; then
@@ -153,9 +154,9 @@ if ask "Install Discord + Vencord (mod client)?"; then
         echo -e "${GREEN}  Discord installed${RESET}"
 
         echo -e "${CYAN}  Installing Vencord...${RESET}"
-        # Download and run the official Vencord CLI installer
+        # Download the official Vencord CLI installer to a user-owned temp file.
+        # We avoid /tmp here because some setups mount it noexec.
         VENCORD_TMP="$(mktemp --tmpdir="$HOME")"
-        trap 'rm -f "$VENCORD_TMP"' RETURN
         curl -sSL \
             https://github.com/Vendicated/VencordInstaller/releases/latest/download/VencordInstallerCli-Linux \
             --output "$VENCORD_TMP" \
@@ -163,24 +164,36 @@ if ask "Install Discord + Vencord (mod client)?"; then
             --fail
         chmod +x "$VENCORD_TMP"
 
-        # Elevate and run — try sudo first, then doas/run0/pkexec
+        # The installer needs to know where the Flatpak Discord data lives.
+        # Flatpak apps store their data under ~/.var/app/<id>, which is owned
+        # by the real user — not root. We pass these vars explicitly so the
+        # installer finds com.discordapp.Discord even when run elevated.
+        REAL_HOME="$HOME"
+        REAL_XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+        REAL_XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+        REAL_USER="$(whoami)"
+
         ELEVATED=false
         for elevate in sudo doas run0 pkexec; do
             if command -v "$elevate" &>/dev/null; then
                 "$elevate" env \
-                    "XDG_CONFIG_HOME=$XDG_CONFIG_HOME" \
-                    "SUDO_USER=$(whoami)" \
+                    "HOME=$REAL_HOME" \
+                    "XDG_DATA_HOME=$REAL_XDG_DATA_HOME" \
+                    "XDG_CONFIG_HOME=$REAL_XDG_CONFIG_HOME" \
+                    "SUDO_USER=$REAL_USER" \
                     "$VENCORD_TMP"
                 ELEVATED=true
                 break
             fi
         done
+
+        rm -f "$VENCORD_TMP"
+
         if [ "$ELEVATED" = false ]; then
             echo -e "${RED}  Could not find sudo/doas/run0/pkexec. Vencord install skipped.${RESET}"
         else
             echo -e "${GREEN}  Vencord installed${RESET}"
         fi
-        rm -f "$VENCORD_TMP"
     fi
 fi
 
