@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
+# Wallpaper picker using Rofi — picks from ~/Wallpapers
+# Applies wallpaper with swww and generates colors with matugen
 
-WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
+WALLPAPER_DIR="$HOME/Wallpapers"
 ROFI_THEME="$HOME/.config/rofi/wallpaper.rasi"
 
-cd "$WALLPAPER_DIR" || exit 1
+# Fallback to Pictures/Wallpapers if ~/Wallpapers doesn't exist
+if [ ! -d "$WALLPAPER_DIR" ]; then
+    WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
+fi
+
+cd "$WALLPAPER_DIR" || { notify-send -a "Wallpaper" "Wallpaper directory not found: $WALLPAPER_DIR"; exit 1; }
 
 IFS=$'\n'
 

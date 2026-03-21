@@ -1,0 +1,15 @@
+* {
+    surface:                      #1e1e2e; /* Base */
+    surface-container:            #313244; /* Surface0 */
+    surface-container-high:       #45475a; /* Surface1 */
+    on-surface:                   #cdd6f4; /* Text */
+    on-surface-variant:           #bac2de; /* Subtext1 */
+    primary:                      #cba6f7; /* Mauve (Purple) */
+    on-primary:                   #11111b; /* Crust */
+    outline:                      #585b70; /* Overlay0 */
+    error-container:              #f38ba8; /* Red */
+    on-error-container:           #11111b;
+    
+    /* Extra for grid borders */
+    color4:                       #89b4fa; /* Blue */
+}

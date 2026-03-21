@@ -1,0 +1,13 @@
+* {
+    /* High Contrast E-Ink Palette */
+    surface:                #050505;
+    on-surface:             #ffffff;
+    surface-container:      #1a1a1a;
+    surface-container-high: #333333;
+    on-surface-variant:     #d0d0d0;
+    primary:                #ffffff;
+    on-primary:             #050505;
+    outline:                #ffffff;
+    error-container:        #ffffff;
+    on-error-container:     #050505;
+}

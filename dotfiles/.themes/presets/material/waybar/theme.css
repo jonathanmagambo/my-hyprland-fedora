@@ -1,0 +1,9 @@
+@define-color surface           #1a1c1e;
+@define-color on_surface        #e2e2e6;
+@define-color primary           #d0bcff; /* Light Violet */
+@define-color secondary         #77d8ff; /* Sky Blue */
+@define-color tertiary          #ffb4ab; /* Coral */
+@define-color on_primary        #381e72;
+@define-color surface_container #43474e;
+@define-color surface_container_high #d6e3ff;
+@define-color outline           #8e9199;

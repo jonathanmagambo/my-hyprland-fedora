@@ -1,0 +1,9 @@
+@define-color surface           #2b3339;
+@define-color on_surface        #d3c6aa;
+@define-color primary           #a7c080; /* Forest Green */
+@define-color secondary         #dbbc7f; /* Sand Yellow */
+@define-color tertiary          #e67e80; /* Soft Red */
+@define-color on_primary        #2b3339;
+@define-color surface_container #323c41;
+@define-color surface_container_high #3a454a;
+@define-color outline           #4f585e;

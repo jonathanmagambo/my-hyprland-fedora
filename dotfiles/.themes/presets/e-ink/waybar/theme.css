@@ -1,0 +1,24 @@
+/* ~/.config/hypr/themes/e-ink-dark/waybar.css */
+
+/* These match the @variables in your style.css exactly */
+@define-color surface            #050505;
+@define-color on_surface         #ffffff;
+@define-color surface_container  #1a1a1a;
+@define-color surface_container_high #333333;
+@define-color primary            #ffffff;
+@define-color on_primary         #050505;
+@define-color secondary          #d0d0d0;
+@define-color tertiary           #b0b0b0;
+@define-color error              #ffffff;
+@define-color on_error           #000000;
+@define-color outline            #ffffff;
+
+/* Overriding the transparency from your main style.css for E-Ink effect */
+window#waybar {
+    background: #050505; 
+    border: 2px solid #ffffff;
+}
+
+#workspaces {
+    background-color: #1a1a1a;
+}
