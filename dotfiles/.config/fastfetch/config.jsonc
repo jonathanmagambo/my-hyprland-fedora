@@ -1,0 +1,44 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "source": "~/.config/fastfetch/logo.txt",
+        "type": "file",
+        "padding": {
+            "top": 2,
+            "right": 6
+        }
+    },
+    "display": {
+        "separator": " 󰧟  "
+    },
+    "modules": [
+        "break", "break", "break", "break", "break",
+        "break", "break",
+
+        { "type": "custom", "format": "" },
+        "break",
+        { "type": "title",    "key": "  𖥔 USER   " },
+        { "type": "uptime",   "key": "  𖥔 UPTIME " },
+        { "type": "packages", "key": "  𖥔 INST   " },
+        { "type": "wm",       "key": "  𖥔 WM     " },
+        
+        { 
+            "type": "command", 
+            "key": "  𖥔 BORN   ",
+            "text": "birth_install=$(stat -c %W /); current=$(date +%s); time_progression=$((current - birth_install)); days_difference=$((time_progression / 86400)); echo $days_difference days"
+        },
+
+        "break", 
+
+        { "type": "custom", "format": "            🕷 " },
+        "break",
+        { "type": "cpu",    "key": "  𖥔 CPU    " },
+        { "type": "gpu",    "key": "  𖥔 GPU    " }, 
+        { "type": "memory", "key": "  𖥔 RAM    " },
+        { "type": "disk",   "key": "  𖥔 DISK   " },   
+        { "type": "shell",  "key": "  𖥔 SHELL  " },
+
+        "break",
+        "break",
+    ]
+}

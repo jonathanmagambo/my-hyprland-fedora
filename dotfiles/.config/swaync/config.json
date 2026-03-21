@@ -1,0 +1,39 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "positionX": "right",
+  "positionY": "top",
+  "layer": "overlay",
+  "control-center-margin-top": 10,
+  "control-center-margin-right": 10,
+  "control-center-width": 380,
+  "cssPriority": "user",
+  "widgets": [
+    "label",
+    "buttons-grid",
+    "mpris",
+    "title",
+    "notifications",
+    "calendar"
+  ],
+  "widget-config": {
+    "title": {
+      "text": "Notifications",
+      "clear-all-button": true,
+      "button-text": "Clear All"
+    },
+    "label": {
+      "max-lines": 1,
+      "text": "Control Center"
+    },
+    "buttons-grid": {
+      "actions": [
+        { "label": "󰖩", "command": "nm-connection-editor" },
+        { "label": "󰂯", "command": "blueman-manager" },
+        { "label": "󰐯", "command": "hyprpicker -a" },
+        { "label": "󰝟", "command": "pactl set-sink-mute @DEFAULT_SINK@ toggle" },
+        { "label": "󰍬", "command": "pactl set-source-mute @DEFAULT_SOURCE@ toggle" },
+        { "label": "󰇄", "command": "wlogout" }
+      ]
+    }
+  }
+}
