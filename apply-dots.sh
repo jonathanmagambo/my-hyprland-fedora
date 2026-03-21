@@ -107,6 +107,14 @@ if ! command -v kitty &>/dev/null; then
     sudo dnf install -y kitty 2>/dev/null || true
 fi
 
+# Extra visual/audio tools (cava=visualizer, cmatrix=matrix, swayosd=volume shower)
+for pkg in cava cmatrix swayosd; do
+    if ! command -v "$pkg" &>/dev/null; then
+        echo -e "${YELLOW}  Installing $pkg...${RESET}"
+        sudo dnf install -y "$pkg" 2>/dev/null || true
+    fi
+done
+
 # swww (animated wallpaper daemon — in Fedora 40+ repos)
 if ! command -v swww &>/dev/null; then
     echo -e "${YELLOW}  Installing swww...${RESET}"
