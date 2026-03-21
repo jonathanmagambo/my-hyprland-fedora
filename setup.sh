@@ -14,7 +14,6 @@
 
 set -e
 
-DOTFILES_DIR="$(cd "$(dirname "$0")/dotfiles" && pwd)"
 INSTALLER_DIR="$HOME/Fedora-Hyprland"
 
 GREEN="\e[32m"

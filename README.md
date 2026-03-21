@@ -141,7 +141,7 @@ curl -fsSL https://raw.githubusercontent.com/spicetify/cli/main/install.sh | sh
 
 - **Fedora 41+**
 - Internet connection during setup
-- `git` installed: `sudo dnf install -y git`
+- `git` (auto-installed by `setup.sh` if missing)
 
 ---
 
