@@ -93,9 +93,19 @@ echo -e "${CYAN}  Installing core packages...${RESET}"
 # grim + slurp + wl-clipboard = screenshot tools (CTRL+S keybind)
 # brightnessctl = brightness keys support
 # fastfetch = system info tool shown on terminal open
-# dolphin = default file manager
-# kitty = default terminal
-sudo dnf install -y ncmpcpp mpd mpd-mpris grim slurp wl-clipboard brightnessctl fastfetch dolphin kitty 2>/dev/null || true
+sudo dnf install -y ncmpcpp mpd mpd-mpris grim slurp wl-clipboard brightnessctl fastfetch 2>/dev/null || true
+
+# dolphin (only install if missing)
+if ! command -v dolphin &>/dev/null; then
+    echo -e "${YELLOW}  Installing dolphin (file manager)...${RESET}"
+    sudo dnf install -y dolphin 2>/dev/null || true
+fi
+
+# kitty (only install if missing)
+if ! command -v kitty &>/dev/null; then
+    echo -e "${YELLOW}  Installing kitty (terminal)...${RESET}"
+    sudo dnf install -y kitty 2>/dev/null || true
+fi
 
 # swww (animated wallpaper daemon — in Fedora 40+ repos)
 if ! command -v swww &>/dev/null; then
