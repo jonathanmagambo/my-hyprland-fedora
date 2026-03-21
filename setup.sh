@@ -114,7 +114,7 @@ chmod +x install.sh
 
 echo ""
 echo -e "${YELLOW}  Installer tips:${RESET}"
-echo "   - Select: ZSH, GTK themes, XDG Portal, Thunar"
+echo "   - Select: ZSH, GTK themes, XDG Portal, Dolphin"
 echo "   - Select: 'dots' to install KooL's base dotfiles"
 echo "   - Select: SDDM (only if GDM was disabled and you rebooted)"
 echo "   - Select: NVIDIA if you have an NVIDIA GPU"

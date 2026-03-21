@@ -58,7 +58,7 @@ my-hyprland-fedora/
 | `SUPER + Return` | Open terminal (Kitty) |
 | `SUPER + SPACE` | App launcher (Rofi) |
 | `SUPER + W` | Browser (Mullvad Browser) |
-| `SUPER + E` | File manager (Thunar) |
+| `SUPER + E` | File manager (Dolphin) |
 | `SUPER + A` | Discord (with Vencord) |
 | `SUPER + G` | Telegram |
 | `SUPER + Z` | Zed editor |
